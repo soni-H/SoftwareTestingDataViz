@@ -7,7 +7,7 @@
         <packaging>war</packaging>
       </options>
     </properties>
-    <root id="archive" name="humanmobility-1.0-SNAPSHOT.war">
+    <root id="archive" name="humanmobility.war">
       <element id="artifact" artifact-name="humanmobility:war exploded" />
     </root>
   </artifact>
