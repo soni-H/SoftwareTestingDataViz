@@ -1,0 +1,138 @@
+create table WeeklyFlow(
+	flowId smallint NOT NULL AUTO_INCREMENT,
+	geoidOrigin smallint  NOT NULL,
+	geoidDestination smallint NOT NULL,
+	coordinatesOrigin point NOT NULL,
+	coordinatesDestination point NOT NULL,
+	dateTo date NOT NULL ,
+	dateFrom date NOT NULL,
+	visitorsFlow smallint,
+	populationFlow smallint NOT NULL,
+	constraint pk_flow PRIMARY KEY (flowId),
+	constraint unique_flow UNIQUE (geoidOrigin,geoidDestination,dateTo,dateFrom)
+);
+
+create table WeeklyPopulation(
+	populationId smallint NOT NULL AUTO_INCREMENT,
+	geoid smallint  NOT NULL,
+	coordinates point NOT NULL,
+	date date NOT NULL ,
+	visitors smallint,
+	population smallint NOT NULL,
+	constraint pk_population PRIMARY KEY (populationId),
+	constraint unique_flow UNIQUE (geoid,date)
+);
+
+create table CountyToState(
+	countyId smallint NOT NULL AUTO_INCREMENT,
+	geoidCounty smallint  NOT NULL,
+	geoidState smallint NOT NULL,
+	constraint pk_county PRIMARY KEY (countyId),
+	constraint unique_county UNIQUE (geoidCounty)
+);
+
+create table Gazetteer(
+	locationId smallint NOT NULL AUTO_INCREMENT,
+	geoid smallint  NOT NULL,
+	locationName smallint NOT NULL,
+	coordinates point NOT NULL,
+	constraint pk_location PRIMARY KEY (locationId),
+	constraint unique_county UNIQUE (geoid)
+);
+(4013,6001,6037,6059,6065,6067,6071,6073,6085,12011,12057,12086,12095,12099,15003,17031,26163,32003,
+36047,36059,36081,36103,39049,42101,48029,48113,48201,48439,48453,53033);
+
+insert into gazetteer (geoid,locationName,latitude,longitude) values(40,'Arizona','34.048927','-111.093735');
+insert into gazetteer (geoid,locationName,latitude,longitude) values(60,'California','36.778259','-119.417931');
+insert into gazetteer (geoid,locationName,latitude,longitude) values(12,'Florida','27.994402','-81.760254');
+insert into gazetteer (geoid,locationName,latitude,longitude) values(15,'Hawaii','19.741755','-155.844437');
+insert into gazetteer (geoid,locationName,latitude,longitude) values(17,'Illinois','40.000000','-89.000000');
+insert into gazetteer (geoid,locationName,latitude,longitude) values(26,'Michigan','44.182205','-84.506836');
+insert into gazetteer (geoid,locationName,latitude,longitude) values(32,'Nevada','39.876019','-117.224121');
+insert into gazetteer (geoid,locationName,latitude,longitude) values(36,'New York','40.730610','-73.935242');
+insert into gazetteer (geoid,locationName,latitude,longitude) values(39,'Ohio','40.367474','-82.996216');
+insert into gazetteer (geoid,locationName,latitude,longitude) values(42,'Pennsylvania','41.203323','-77.194527');
+insert into gazetteer (geoid,locationName,latitude,longitude) values(48,'Texas','31.000000','-100.000000');
+insert into gazetteer (geoid,locationName,latitude,longitude) values(53,'Washington','47.751076','-120.740135');
+
+
+select g.locationName,g2.locationName as State,sum(w.populationFlow) from Gazetteer g
+inner join WeeklyFlow w on g.geoid=w.geoidDestination inner join Gazetteer g2 on
+left(w.geoidDestination,2)=g2.geoid
+where w.geoidDestination in (4013,6001,6037,6059,6065,6067,6071,6073,6085,12011,12057,12086,
+12095,12099,15003,17031,26163,32003,
+36047,36059,36081,36103,39049,42101,48029,48113,48201,48439,48453,53033) group by
+w.geoidDestination;
+
+select g.locationName,g2.locationName as State,sum(w.populationFlow) from Gazetteer g
+inner join WeeklyFlow w on g.geoid=w.geoidOrigin inner join Gazetteer g2 on
+substring(w.geoidOrigin,1,2) =cast(g2.geoid as string )
+where w.geoidOrigin in (4013,6001,6037,6059,6065,6067,6071,6073,6085,12011,12057,12086,
+12095,12099,15003,17031,26163,32003,
+36047,36059,36081,36103,39049,42101,48029,48113,48201,48439,48453,53033) group by w.geoidOrigin
+
+
+select latitudeorigin,longitudeorigin,latitudeDestination,longitudeDestination,
+sum(populationFlow),g.locationName as Origin,g2.locationName as Destination from weeklyFlow w
+inner join Gazetteer g on w.geoidOrigin=g.geoid inner join Gazetteer g2 on
+w.geoidDestination=g2.geoid where geoidOrigin in (6001,
+6037,53033) and geoidDestination in (4013,6001,6037,6059,6065,6067,6071,6073,6085,12011,
+12057,12086,12095,12099,15003,17031,26163,32003,
+36047,36059,36081,36103,39049,42101,48029,48113,48201,48439,48453,53033) and w.dateTo<='2020-02-09' and
+w.dateFrom>='2020-01-26' group by geoidorigin,
+geoidDestination limit 30;
+
+
+select g.locationName,g2.locationName as State,sum(w.populationFlow) from Gazetteer g
+inner join WeeklyFlow w on g.geoid=w.geoidOrigin inner join Gazetteer g2 on
+left(w.geoidOrigin,2) =g2.geoid
+where w.geoidOrigin in (4013,6001,6037,6059,6065,6067,6071,6073,6085,12011,12057,12086,
+12095,12099,15003,17031,26163,32003,
+36047,36059,36081,36103,39049,42101,48029,48113,48201,48439,48453,53033) and w.dateTo<='2020-02-09' and
+w.dateFrom>='2020-01-26' group by w.geoidOrigin;
+
+
+select g.locationName,g2.locationName as State,sum(w.populationFlow) from Gazetteer g
+inner join WeeklyFlow w on g.geoid=w.geoidOrigin inner join Gazetteer g2 on
+left(w.geoidOrigin,2) =g2.geoid
+where w.geoidOrigin in (4013,6001,6037,6059,6065,6067,6071,6073,6085,12011,12057,12086,
+12095,12099,15003,17031,26163,32003,
+36047,36059,36081,36103,39049,42101,48029,48113,48201,48439,48453,53033)  group by w.geoidOrigin;
+
+-----------------------------------------------------------------------------------------------
+FILTERED:
+select a.population,a.date,c.locationName from weeklypopulation a inner join Gazetteer b on left(a.geoid,2)=b.geoid inner join Gazetteer c
+on a.geoid=c.geoid where b.geoid=36 and a.date between '2020-01-19' and '2020-02-09';
+
+ALL:
+select sum(a.population),a.date,b.locationName from weeklypopulation a inner join Gazetteer b on left(a.geoid,2)=b.geoid
+where a.date between '2020-01-19' and '2020-02-09' group by locationName,date;
+--------------------------------------------------------------------------------------------------
+
+select latitudeorigin,longitudeorigin,latitudeDestination,longitudeDestination,
+sum(populationFlow),g.locationName as Origin,g2.locationName as Destination from weeklyFlow w
+inner join Gazetteer g on w.geoidOrigin=g.geoid inner join Gazetteer g2 on
+w.geoidDestination=g2.geoid where left(w.geoidOrigin,2)=40  and left(w.geoidDestination,2)=40  and w.dateTo<='2020-02-09' and
+w.dateFrom>='2020-01-26' group by geoidorigin, geoidDestination
+
+------------------------------------------------------------------------------------------------------
+select g.locationName,g2.locationName as State,sum(w.populationFlow) from Gazetteer g
+inner join WeeklyFlow w on g.geoid=w.geoidOrigin inner join Gazetteer g2 on
+left(w.geoidOrigin,2) =g2.geoid
+where  g2.geoid=40 group by w.geoidOrigin
+
+-----------------------------------------------------------------------------------------------------------
+select sum(populationflow),g1.geoid,g2.geoid from gazetteer g1 inner join gazetteer g2 on 1=1
+ and g1.geoid<> 17 and g2.geoid<>17 and left(g1.geoid,2)=17 and left(g2.geoid,2)=17
+left outer join weeklyflow w on g1.geoid=w.geoidOrigin and
+g2.geoid=w.geoidDestination and w.dateTo='2020-01-19' and w.dateFrom='2020-01-13' where g1.geoid is not null and
+g2.geoid is not null group by
+g1.geoid,g2.geoid order by g1.geoid,g2.geoid;
+
+
+
+select latitudeorigin,longitudeorigin,latitudeDestination,longitudeDestination,
+sum(populationFlow),g.locationName as Origin,g2.locationName as Destination from weeklyFlow w
+inner join Gazetteer g on left(w.geoidOrigin,2)=g.geoid inner join Gazetteer g2 on
+substring(w.geoidDestination,1,2)=g2.geoid where w.dateTo<='2020-02-09' and
+w.dateFrom>='2020-01-26' group by g.geoid,g2.geoid

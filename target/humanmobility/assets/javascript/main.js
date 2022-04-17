@@ -261,27 +261,27 @@ async function renderChart(side) {
     createSeries(
         'Less than 10,000',map,
         dataSet.filter('total', filterFunction(0, 10000)),
-        '#2c6707'
+        '#9ce0ef'
     );
     createSeries(
         '10,000 to 1,00,000',map,
         dataSet.filter('total', filterFunction(10000, 100000)),
-        '#9ce0ef'
+        '#047885'
     );
     createSeries(
         '1,00,000 to 3,00,000',map,
         dataSet.filter('total', filterFunction(100000, 300000)),
-        '#3fb8c5'
+        '#1b47d7'
     );
     createSeries(
         '3,00,000 to 5,00,000',map,
         dataSet.filter('total', filterFunction(300000, 500000)),
-        '#3a6eec'
+        '#e59790'
     );
     createSeries(
         'More than 5,00,000',map,
         dataSet.filter('total', filterFunction(500000, 1000000)),
-        '#ee9898'
+        '#ec2626'
     );
 
      var flowMap=document.getElementById('flow'+side);
@@ -310,11 +310,11 @@ async function renderChart(side) {
     customColorScale.colors(["#CF7A78", "#E69645", "#69A231", "#4D7623"]);
     customColorScale.ranges([
         {less:1, name: 'No Flow',color: '#877F9CFF'},
-        { from: 1, to: 10000, name: 'Less than 10,000', color: '#2c6707' },
-        { from: 10000, to: 100000, name: '10,000 to 1,00,000', color: '#9ce0ef' },
-        { from: 100000, to: 300000, name: '1,00,000 to 3,00,000', color: '#3fb8c5' },
-        { from: 300000, to: 500000, name: '3,00,000 to 5,00,000', color: '#3a6eec' },
-        { greater: 500000, name: 'More than 5,00,000', color: '#ee9898' }
+        { from: 1, to: 10000, name: 'Less than 10,000', color: '#9ce0ef' },
+        { from: 10000, to: 100000, name: '10,000 to 1,00,000', color: '#047885' },
+        { from: 100000, to: 300000, name: '1,00,000 to 3,00,000', color: '#1b47d7' },
+        { from: 300000, to: 500000, name: '3,00,000 to 5,00,000', color: '#e59790' },
+        { greater: 500000, name: 'More than 5,00,000', color: '#ec2626' }
     ]);
     matrixChart.colorScale(customColorScale);
     var tooltip = matrixChart.tooltip();
