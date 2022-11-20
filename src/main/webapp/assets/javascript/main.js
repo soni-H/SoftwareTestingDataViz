@@ -499,11 +499,9 @@ async function getMatrixData(side){
         fromDate: fromDate,
         toDate: toDate,
     }), {
-        // Adding method type
         method: "GET",
         headers: {
             "Content-type": "application/json"
-
         }
     });
     // Converting to JSON
