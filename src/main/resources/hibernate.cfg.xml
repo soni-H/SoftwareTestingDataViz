@@ -13,10 +13,10 @@
         <!-- DB schema will be updated if needed -->
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="show_sql">false</property>
-        <mapping class="com.example.humanmobility.beans.CountyToState"/>  <!--beans we will be using for the project-->
-        <mapping class="com.example.humanmobility.beans.Gazetteer"/>
-        <mapping class="com.example.humanmobility.beans.WeeklyFlow"/>
-        <mapping class="com.example.humanmobility.beans.WeeklyPopulation"/>
+        <mapping class="com.example.beans.CountyToState"/>  <!--beans we will be using for the project-->
+        <mapping class="com.example.beans.Gazetteer"/>
+        <mapping class="com.example.beans.WeeklyFlow"/>
+        <mapping class="com.example.beans.WeeklyPopulation"/>
     </session-factory>
 
 </hibernate-configuration>

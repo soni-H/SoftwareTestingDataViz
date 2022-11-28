@@ -1,12 +1,8 @@
-package com.example.humanmobility.test.dao;
+package com.example.test.dao;
 
-import com.example.humanmobility.dao.impl.FlowDataImpl;
-import com.example.humanmobility.dao.impl.HierariachalFlowImpl;
-import com.example.humanmobility.dao.impl.MobilityDaoImpl;
-import com.example.humanmobility.pojo.FlowData;
-import com.example.humanmobility.pojo.PopulationResponse;
-import com.example.humanmobility.pojo.SunburstResponse;
-import com.example.humanmobility.utils.HibernateSessionUtil;
+import com.example.dao.impl.HierariachalFlowImpl;
+import com.example.pojo.SunburstResponse;
+import com.example.utils.HibernateSessionUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.HibernateException;
@@ -25,7 +21,6 @@ import org.powermock.core.classloader.annotations.SuppressStaticInitializationFo
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
